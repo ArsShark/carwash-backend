@@ -1,0 +1,37 @@
+package com.example.carwash.config;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+@RequiredArgsConstructor
+public class ApplicationConfig {
+
+    private final UserDetailsService userDetailsService;
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        // Используем конструктор, принимающий UserDetailsService и PasswordEncoder
+        // Это устраняет ошибки с конструктором без аргументов и сеттерами
+        return new DaoAuthenticationProvider(userDetailsService);
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
+        // Убираем throws Exception — метод getAuthenticationManager() не выбрасывает проверяемое исключение в используемой версии
+        return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
