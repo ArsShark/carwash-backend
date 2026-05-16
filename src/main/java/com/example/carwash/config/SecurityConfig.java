@@ -29,8 +29,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Публичные эндпоинты (аутентификация)
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/login").permitAll()
                         // Swagger/OpenAPI (опционально)
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/error").permitAll()
                         // GET запросы - доступны авторизованным пользователям (USER и ADMIN)
                         .requestMatchers("/api/clients/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/services/**").hasAnyRole("USER", "ADMIN")

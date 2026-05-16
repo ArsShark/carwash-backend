@@ -18,10 +18,12 @@ public class ApplicationConfig {
     private final UserDetailsService userDetailsService;
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
-        // Используем конструктор, принимающий UserDetailsService и PasswordEncoder
-        // Это устраняет ошибки с конструктором без аргументов и сеттерами
-        return new DaoAuthenticationProvider(userDetailsService);
+    public AuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder) {
+        // Конструктор DaoAuthenticationProvider требует UserDetailsService
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
+        // Устанавливаем кодировщик паролей (BCrypt)
+        provider.setPasswordEncoder(passwordEncoder);
+        return provider;
     }
 
     @Bean
