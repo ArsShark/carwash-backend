@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: carwash-fix
+      comment: "Align seeded role names with the ROLE_ prefix expected by Spring Security's hasRole()/hasAnyRole() checks and by UserServiceImpl."
+      changes:
+        - update:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_USER
+            where: name = 'USER'
+        - update:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_ADMIN
+            where: name = 'ADMIN'

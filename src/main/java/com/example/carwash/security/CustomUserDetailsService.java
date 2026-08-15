@@ -1,0 +1,23 @@
+package com.example.carwash.security;
+
+import com.example.carwash.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class CustomUserDetailsService implements UserDetailsService {
+
+    private final UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // Look up the user in the database
+        return userRepository.findByUsername(username)
+                .map(CustomUserDetails::new) // Wrap in our class
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+    }
+}
