@@ -19,16 +19,16 @@ public class ApplicationConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder) {
-        // The DaoAuthenticationProvider constructor requires a UserDetailsService
+
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
-        // Set the password encoder (BCrypt)
+
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
-        // No throws Exception here — getAuthenticationManager() does not throw a checked exception in the version used
+
         return config.getAuthenticationManager();
     }
 

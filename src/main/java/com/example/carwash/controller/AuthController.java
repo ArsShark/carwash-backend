@@ -3,12 +3,14 @@ package com.example.carwash.controller;
 import com.example.carwash.dto.request.LoginRequest;
 import com.example.carwash.dto.request.RegisterRequest;
 import com.example.carwash.dto.response.AuthResponse;
+import com.example.carwash.dto.response.UserResponse;
 import com.example.carwash.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,5 +31,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(userService.login(request));
+    }
+
+    @Operation(summary = "Get the currently authenticated user")
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> me(Authentication authentication) {
+        return ResponseEntity.ok(userService.getCurrentUser(authentication.getName()));
     }
 }

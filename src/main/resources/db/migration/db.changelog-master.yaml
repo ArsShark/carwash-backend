@@ -5,5 +5,3 @@ databaseChangeLog:
       file: db/migration/002-create-carwash-entities.yaml
   - include:
       file: db/migration/003-add-soft-delete-columns.yaml
-  - include:
-      file: db/migration/004-fix-role-names.yaml

@@ -3,6 +3,7 @@ package com.example.carwash.service.impl;
 import com.example.carwash.dto.request.LoginRequest;
 import com.example.carwash.dto.request.RegisterRequest;
 import com.example.carwash.dto.response.AuthResponse;
+import com.example.carwash.dto.response.UserResponse;
 import com.example.carwash.entity.Role;
 import com.example.carwash.entity.User;
 import com.example.carwash.exception.UserAlreadyExistsException;
@@ -71,5 +72,11 @@ public class UserServiceImpl implements UserService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
+    }
+
+    @Override
+    public UserResponse getCurrentUser(String username) {
+        User user = findByUsername(username);
+        return userMapper.toUserResponse(user);
     }
 }

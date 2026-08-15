@@ -13,8 +13,6 @@ import java.util.stream.Collectors;
 @Component
 public class AppointmentMapper {
 
-    // On creation we only have the client and service IDs.
-    // We build "empty" reference objects with these IDs so JPA understands the association.
     public Appointment toEntity(AppointmentRequest request) {
         if (request == null) return null;
         Appointment appointment = new Appointment();

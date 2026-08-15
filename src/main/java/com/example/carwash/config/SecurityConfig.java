@@ -28,8 +28,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints (authentication)
-                        .requestMatchers("/api/auth/**").permitAll()
+                        // Public endpoints (registration/login only — /api/auth/me
+                        // needs an authenticated caller, see the matcher below)
+                        .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
                         // Swagger/OpenAPI (optional)
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/error").permitAll()

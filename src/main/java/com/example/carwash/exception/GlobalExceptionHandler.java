@@ -1,5 +1,6 @@
 package com.example.carwash.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -12,6 +13,7 @@ import org.springframework.validation.FieldError;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -42,22 +44,29 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, "Validation Failed", message);
     }
 
-    // Wrong username/password on login (401)
+    // Wrong username/password on login (401). The client only ever sees a
+    // generic message, but the real reason is logged server-side for diagnostics.
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex) {
+        log.warn("Authentication failed: {}", ex.getMessage());
         return build(HttpStatus.UNAUTHORIZED, "Unauthorized", "Invalid username or password");
     }
 
-    // Authenticated user does not have the required role (403)
+    // Authenticated user does not have the required role (403). Same idea:
+    // log the specifics, keep the client response generic.
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException ex) {
+        log.warn("Access denied: {}", ex.getMessage());
         return build(HttpStatus.FORBIDDEN, "Access Denied", "You do not have permission to perform this action");
     }
 
-    // Fallback for any other unexpected error (500)
+    // Fallback for any other unexpected error (500). The full exception is
+    // logged server-side; the client gets a generic message so internal
+    // implementation details are never leaked in the response body.
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
-        return build(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", ex.getMessage());
+        log.error("Unexpected error", ex);
+        return build(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", "An unexpected error occurred");
     }
 
     private ResponseEntity<ErrorResponse> build(HttpStatus status, String error, String message) {

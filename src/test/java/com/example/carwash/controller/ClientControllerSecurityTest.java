@@ -18,7 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * authentication on write paths, and the actual USER-vs-ADMIN restriction
  * for creating/updating/deleting comes from @PreAuthorize on the controller
  * methods. These tests make sure that restriction is really enforced.
- *
  * Requires the project's MySQL instance (docker-compose) to be running,
  * same as any other @SpringBootTest in this project.
  */
