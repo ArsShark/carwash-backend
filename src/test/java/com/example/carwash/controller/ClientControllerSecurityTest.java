@@ -1,6 +1,6 @@
 package com.example.carwash.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import com.example.carwash.dto.request.ClientRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ class ClientControllerSecurityTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private JsonMapper objectMapper;
 
     private String validClientJson() throws Exception {
         ClientRequest request = new ClientRequest("Test Client", "+375291112233", "Toyota Camry");
