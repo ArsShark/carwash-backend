@@ -46,7 +46,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     @Transactional
     public AppointmentResponse create(AppointmentRequest request) {
-        // Verify that the client and the service exist
         Client client = clientRepository.findById(request.getClientId())
                 .orElseThrow(() -> new ResourceNotFoundException("Client not found with id: " + request.getClientId()));
 

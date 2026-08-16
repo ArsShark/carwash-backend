@@ -18,6 +18,7 @@ class GlobalExceptionHandlerTest {
                 handler.handleResourceNotFoundException(new ResourceNotFoundException("Client not found with id: 1"));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getMessage()).contains("Client not found");
     }
 
@@ -43,6 +44,7 @@ class GlobalExceptionHandlerTest {
                 handler.handleAuthenticationException(new BadCredentialsException("Bad credentials"));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+        assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getMessage()).isEqualTo("Invalid username or password");
     }
 

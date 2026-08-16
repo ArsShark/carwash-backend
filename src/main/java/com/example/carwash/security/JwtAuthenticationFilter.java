@@ -31,7 +31,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        // 1. Read the Authorization header
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
@@ -41,18 +40,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        jwt = authHeader.substring(7); // Strip the "Bearer " prefix
+        jwt = authHeader.substring(7);
 
         try {
             username = jwtService.extractUsername(jwt);
 
-            // 2. If a username was extracted and the user is not yet in the security context
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-                // 3. Validate the token
                 if (jwtService.isTokenValid(jwt)) {
-                    // Build the authentication object
+
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
@@ -61,19 +58,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authToken.setDetails(
                             new WebAuthenticationDetailsSource().buildDetails(request)
                     );
-                    // Set it in the Spring Security context (now the system knows who we are)
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
         } catch (JwtException | IllegalArgumentException ex) {
-            // Malformed, expired, or otherwise invalid token: treat the request as
-            // unauthenticated instead of letting the exception bubble up as a 500.
-            // Protected endpoints will correctly fall through to a 401 further down
-            // the filter chain.
             SecurityContextHolder.clearContext();
         }
 
-        // 4. Continue the filter chain
         filterChain.doFilter(request, response);
     }
 }

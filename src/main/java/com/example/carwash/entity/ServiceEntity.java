@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "services")
-@SQLRestriction("deleted = false") // Automatically filters out deleted rows
+@SQLRestriction("deleted = false")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,7 +35,6 @@ public class ServiceEntity {
     @Column(nullable = false)
     private Boolean deleted = false;
 
-    // Associations
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private java.util.List<Appointment> appointments;
 }

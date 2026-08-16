@@ -1,7 +1,6 @@
 package com.example.carwash.security;
 
 import com.example.carwash.exception.ErrorResponse;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,7 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
             HttpServletRequest request,
             HttpServletResponse response,
             AccessDeniedException accessDeniedException
-    ) throws IOException, ServletException {
+    ) throws IOException {
         ErrorResponse body = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpServletResponse.SC_FORBIDDEN,

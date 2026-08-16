@@ -8,7 +8,7 @@ import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Table(name = "clients")
-@SQLRestriction("deleted = false") // Automatically filters out deleted rows
+@SQLRestriction("deleted = false")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,7 +30,6 @@ public class Client {
     @Column(nullable = false)
     private Boolean deleted = false;
 
-    // Associations
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private java.util.List<Appointment> appointments;
 }

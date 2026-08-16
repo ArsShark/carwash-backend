@@ -7,6 +7,5 @@ import java.util.List;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
-    // Spring Data will generate the query honoring the deleted = false filter automatically
     List<Appointment> findByClientId(Long clientId);
 }

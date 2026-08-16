@@ -16,8 +16,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Convert the user's roles into Spring Security authorities (role names
-        // are stored with the ROLE_ prefix already, e.g. ROLE_ADMIN)
         return user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
@@ -33,8 +31,4 @@ public class CustomUserDetails implements UserDetails {
         return user.getUsername();
     }
 
-    // isAccountNonExpired / isAccountNonLocked / isCredentialsNonExpired / isEnabled
-    // are intentionally not overridden: UserDetails already provides default
-    // implementations that return true, and this account model has no
-    // expiry/lock/enabled flags to report otherwise.
 }

@@ -1,7 +1,6 @@
 package com.example.carwash.security;
 
 import com.example.carwash.exception.ErrorResponse;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,14 +13,6 @@ import tools.jackson.databind.json.JsonMapper;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-/**
- * Runs at the filter-chain level (via ExceptionTranslationFilter) whenever an
- * unauthenticated caller hits a protected endpoint — this is the case
- * GlobalExceptionHandler can never see, because it only handles exceptions
- * thrown during Spring MVC dispatch, and this happens before that. Without
- * this, Spring Security falls back to Http403ForbiddenEntryPoint, which
- * returns 403 for "not logged in at all" — the correct code is 401.
- */
 @Component
 @RequiredArgsConstructor
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -33,7 +24,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
             HttpServletRequest request,
             HttpServletResponse response,
             AuthenticationException authException
-    ) throws IOException, ServletException {
+    ) throws IOException {
         ErrorResponse body = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpServletResponse.SC_UNAUTHORIZED,

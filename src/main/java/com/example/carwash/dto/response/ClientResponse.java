@@ -12,5 +12,4 @@ public class ClientResponse {
     private String fullName;
     private String phone;
     private String carModel;
-    // The deleted field is intentionally not exposed here.
 }
