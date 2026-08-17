@@ -74,6 +74,10 @@ databaseChangeLog:
               - column:
                   name: name
                   value: ROLE_USER
+
+        - insert:
+            tableName: roles
+            columns:
               - column:
                   name: id
                   valueNumeric: 2
@@ -93,7 +97,7 @@ databaseChangeLog:
               - column:
                   name: password
                   # Password: admin (BCrypt hash)
-                  value: $2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lqkkO9QS3TzCjH3r
+                  value: $2a$10$v75TlzXkNkOmUlur/h4Q1eU6kLHpJvuG10.D3Ts.WoyUII4EeXc86
 
         - insert:
             tableName: user_roles

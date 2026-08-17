@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: carwash-fix
+      comment: "Align the deleted column's physical type with what Hibernate expects (BIT) for a Java Boolean field on MySQLDialect. Migration 003 declared type: BOOLEAN, which MySQL/Liquibase materializes as TINYINT — harmless under ddl-auto: update (which never checked), but a real mismatch under ddl-auto: validate."
+      changes:
+        - modifyDataType: {tableName: clients, columnName: deleted, newDataType: BIT}
+        - modifyDataType: {tableName: services, columnName: deleted, newDataType: BIT}
+        - modifyDataType: {tableName: branches, columnName: deleted, newDataType: BIT}
+        - modifyDataType: {tableName: appointments, columnName: deleted, newDataType: BIT}
+        - modifyDataType: {tableName: users, columnName: deleted, newDataType: BIT}

@@ -16,16 +16,19 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
 
+    // Read the secret key from application.yml
     @Value("${jwt.secret}")
     private String secretKey;
 
     @Value("${jwt.expiration}")
-    private long expiration;
+    private long expiration; // Token lifetime in ms
 
+    // Extract the username from the token
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+    // Validate the token
     public boolean isTokenValid(String token) {
         try {
             return !isTokenExpired(token);
@@ -34,6 +37,7 @@ public class JwtService {
         }
     }
 
+    // Generate a token for the user
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -43,6 +47,7 @@ public class JwtService {
                 .compact();
     }
 
+    // Internal helper methods for working with JWT
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);

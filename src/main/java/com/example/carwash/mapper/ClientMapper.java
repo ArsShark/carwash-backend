@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 @Component
 public class ClientMapper {
 
+    // From DTO (request) to entity (for persistence)
     public Client toEntity(ClientRequest request) {
         if (request == null) return null;
         Client client = new Client();
@@ -20,12 +21,14 @@ public class ClientMapper {
         return client;
     }
 
+    // Apply request fields onto an existing managed entity (used for updates)
     public void updateEntity(Client client, ClientRequest request) {
         client.setFullName(request.getFullName());
         client.setPhone(request.getPhone());
         client.setCarModel(request.getCarModel());
     }
 
+    // From entity (from DB) to DTO (for the response)
     public ClientResponse toResponse(Client client) {
         if (client == null) return null;
         ClientResponse response = new ClientResponse();
@@ -36,6 +39,7 @@ public class ClientMapper {
         return response;
     }
 
+    // List conversion
     public List<ClientResponse> toResponseList(List<Client> clients) {
         return clients.stream()
                 .map(this::toResponse)

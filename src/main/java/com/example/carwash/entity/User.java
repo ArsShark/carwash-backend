@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@SQLRestriction("deleted = false")
+@SQLRestriction("deleted = false") // Automatically filters out deleted users
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

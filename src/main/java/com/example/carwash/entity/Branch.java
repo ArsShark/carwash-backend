@@ -8,7 +8,7 @@ import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Table(name = "branches")
-@SQLRestriction("deleted = false")
+@SQLRestriction("deleted = false") // Automatically filters out deleted rows
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

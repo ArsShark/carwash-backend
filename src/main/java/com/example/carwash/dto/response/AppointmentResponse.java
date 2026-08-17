@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AppointmentResponse {
     private Long id;
-    private String clientName;
-    private String serviceName;
+    private String clientName; // Client name
+    private String serviceName; // Service name
     private LocalDateTime dateTime;
     private String status;
 }

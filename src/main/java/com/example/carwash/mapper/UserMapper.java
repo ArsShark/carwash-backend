@@ -12,6 +12,7 @@ import java.util.List;
 public class UserMapper {
 
     public AuthResponse toResponse(String token, String username) {
+        // Build the response with the token, type and username
         return new AuthResponse(token, "Bearer", username);
     }
 

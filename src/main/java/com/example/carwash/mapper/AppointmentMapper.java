@@ -17,6 +17,7 @@ public class AppointmentMapper {
         if (request == null) return null;
         Appointment appointment = new Appointment();
 
+        // Build references to existing rows by ID
         Client clientRef = new Client();
         clientRef.setId(request.getClientId());
         appointment.setClient(clientRef);
@@ -26,14 +27,16 @@ public class AppointmentMapper {
         appointment.setService(serviceRef);
 
         appointment.setDateTime(request.getDateTime());
-        appointment.setStatus("BOOKED");
+        appointment.setStatus("BOOKED"); // Default status
         return appointment;
     }
 
+    // Apply new date/time onto an existing managed appointment (client/service re-linking is handled in the service layer)
     public void updateEntity(Appointment appointment, AppointmentRequest request) {
         appointment.setDateTime(request.getDateTime());
     }
 
+    // In the response we want to show readable names instead of raw IDs.
     public AppointmentResponse toResponse(Appointment appointment) {
         if (appointment == null) return null;
         AppointmentResponse response = new AppointmentResponse();
@@ -41,10 +44,12 @@ public class AppointmentMapper {
         response.setDateTime(appointment.getDateTime());
         response.setStatus(appointment.getStatus());
 
+        // Safely resolve the client's name
         if (appointment.getClient() != null) {
             response.setClientName(appointment.getClient().getFullName());
         }
 
+        // Safely resolve the service's name
         if (appointment.getService() != null) {
             response.setServiceName(appointment.getService().getName());
         }
