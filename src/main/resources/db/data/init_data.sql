@@ -24,10 +24,3 @@ INSERT INTO appointments (client_id, service_id, date_time, status, deleted) VAL
                                                                                  (1, 1, '2024-01-15 10:00:00', 'BOOKED', false),
                                                                                  (2, 3, '2024-01-15 14:00:00', 'BOOKED', false),
                                                                                  (1, 2, '2024-01-16 11:00:00', 'COMPLETED', false);
-INSERT INTO roles (id, name) VALUES (1, 'ROLE_USER');
-INSERT INTO roles (id, name) VALUES (2, 'ROLE_ADMIN');
-
-INSERT INTO users (username, password, deleted)
-VALUES ('admin', '$2a$10$v75TlzXkNkOmUlur/h4Q1eU6kLHpJvuG10.D3Ts.WoyUII4EeXc86', false);
-INSERT INTO user_roles (user_id, role_id)
-VALUES ((SELECT id FROM users WHERE username='admin'), 2);

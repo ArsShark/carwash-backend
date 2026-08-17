@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,9 +21,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * methods. These tests make sure that restriction is really enforced.
  * Requires the project's MySQL instance (docker-compose) to be running,
  * same as any other @SpringBootTest in this project.
+ *
+ * @Transactional wraps each test method in a transaction that's rolled back
+ * once the test finishes, so the client rows created here never leak into
+ * the real dev database across test runs.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class ClientControllerSecurityTest {
 
     @Autowired
