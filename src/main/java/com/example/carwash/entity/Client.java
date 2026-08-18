@@ -6,9 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLRestriction;
 
+/**
+ * A car wash client. Soft-deleted rows ({@code deleted = true}) are excluded from
+ * every query automatically via {@link SQLRestriction}, so deletion never
+ * removes a row from the database.
+ */
 @Entity
 @Table(name = "clients")
-@SQLRestriction("deleted = false") // Automatically filters out deleted rows
+@SQLRestriction("deleted = false")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,7 +35,6 @@ public class Client {
     @Column(nullable = false)
     private Boolean deleted = false;
 
-    // Associations
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private java.util.List<Appointment> appointments;
 }

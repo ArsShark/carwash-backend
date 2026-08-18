@@ -17,6 +17,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * Reads the {@code Authorization: Bearer <token>} header on every request
+ * and, if it carries a valid JWT, populates the Spring Security context
+ * with the corresponding user so downstream {@code hasRole}/{@code
+ * @PreAuthorize} checks see an authenticated principal. Requests with no
+ * header, or an invalid one, are simply passed through unauthenticated —
+ * it is {@link com.example.carwash.config.SecurityConfig} and {@link
+ * RestAuthenticationEntryPoint} that decide what happens to those next.
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -31,7 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        // 1. Read the Authorization header
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
@@ -41,18 +49,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        jwt = authHeader.substring(7); // Strip the "Bearer " prefix
+        jwt = authHeader.substring(7); // strip the "Bearer " prefix
 
         try {
             username = jwtService.extractUsername(jwt);
 
-            // 2. If a username was extracted and the user is not yet in the security context
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-                // 3. Validate the token
                 if (jwtService.isTokenValid(jwt)) {
-                    // Build the authentication object
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
@@ -61,7 +66,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authToken.setDetails(
                             new WebAuthenticationDetailsSource().buildDetails(request)
                     );
-                    // Set it in the Spring Security context (now the system knows who we are)
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
@@ -73,7 +77,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.clearContext();
         }
 
-        // 4. Continue the filter chain
         filterChain.doFilter(request, response);
     }
 }

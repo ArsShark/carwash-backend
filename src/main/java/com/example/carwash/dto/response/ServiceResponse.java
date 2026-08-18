@@ -8,6 +8,9 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * A car wash service as returned to API callers.
+ */
 public class ServiceResponse {
     private Long id;
     private String name;

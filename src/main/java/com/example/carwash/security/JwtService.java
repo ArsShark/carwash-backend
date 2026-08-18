@@ -12,23 +12,34 @@ import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
 
+/**
+ * Issues and reads the JWTs used for stateless authentication. The signing
+ * key and token lifetime are configured via {@code jwt.secret} and
+ * {@code jwt.expiration} in {@code application.yml}.
+ */
 @Service
 @RequiredArgsConstructor
 public class JwtService {
 
-    // Read the secret key from application.yml
     @Value("${jwt.secret}")
     private String secretKey;
 
     @Value("${jwt.expiration}")
-    private long expiration; // Token lifetime in ms
+    private long expiration;
 
-    // Extract the username from the token
+    /**
+     * @param token a JWT previously issued by {@link #generateToken}
+     * @return the username stored in the token's subject claim
+     * @throws io.jsonwebtoken.JwtException if the token is malformed, expired, or has an invalid signature
+     */
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // Validate the token
+    /**
+     * @param token a JWT previously issued by {@link #generateToken}
+     * @return {@code true} if the token's signature is valid and it has not expired
+     */
     public boolean isTokenValid(String token) {
         try {
             return !isTokenExpired(token);
@@ -37,7 +48,10 @@ public class JwtService {
         }
     }
 
-    // Generate a token for the user
+    /**
+     * @param username the subject to embed in the token
+     * @return a signed JWT valid for {@code jwt.expiration} milliseconds from now
+     */
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -47,7 +61,6 @@ public class JwtService {
                 .compact();
     }
 
-    // Internal helper methods for working with JWT
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);

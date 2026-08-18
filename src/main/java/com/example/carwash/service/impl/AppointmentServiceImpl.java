@@ -3,6 +3,7 @@ package com.example.carwash.service.impl;
 import com.example.carwash.dto.request.AppointmentRequest;
 import com.example.carwash.dto.response.AppointmentResponse;
 import com.example.carwash.entity.Appointment;
+import com.example.carwash.entity.AppointmentStatus;
 import com.example.carwash.entity.Client;
 import com.example.carwash.entity.ServiceEntity;
 import com.example.carwash.exception.ResourceNotFoundException;
@@ -81,11 +82,18 @@ public class AppointmentServiceImpl implements AppointmentService {
         return mapper.toResponse(savedAppointment);
     }
 
+    /**
+     * Soft-deletes the appointment and marks it {@link
+     * com.example.carwash.entity.AppointmentStatus#CANCELLED} at the same
+     * time, since a deleted appointment is, from the business's point of
+     * view, a cancelled one.
+     */
     @Override
     @Transactional
     public void softDelete(Long id) {
         Appointment appointment = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + id));
+        appointment.setStatus(AppointmentStatus.CANCELLED);
         appointment.setDeleted(true);
         repository.save(appointment);
     }

@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * Payload for creating or updating a branch.
+ */
 public class BranchRequest {
 
     @NotBlank(message = "Branch name is required")

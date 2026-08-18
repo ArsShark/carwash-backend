@@ -5,6 +5,7 @@ import com.example.carwash.dto.request.RegisterRequest;
 import com.example.carwash.dto.response.AuthResponse;
 import com.example.carwash.dto.response.UserResponse;
 import com.example.carwash.entity.Role;
+import com.example.carwash.entity.RoleName;
 import com.example.carwash.entity.User;
 import com.example.carwash.exception.UserAlreadyExistsException;
 import com.example.carwash.exception.UserNotFoundException;
@@ -63,7 +64,7 @@ class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        userRole = new Role(1L, "ROLE_USER");
+        userRole = new Role(1L, RoleName.ROLE_USER);
 
         user = new User();
         user.setId(1L);
@@ -109,7 +110,7 @@ class UserServiceImplTest {
         AuthResponse expectedResponse = new AuthResponse("jwt-token", "Bearer", "newuser");
 
         when(userRepository.existsByUsername("newuser")).thenReturn(false);
-        when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(userRole));
+        when(roleRepository.findByName(RoleName.ROLE_USER)).thenReturn(Optional.of(userRole));
         when(passwordEncoder.encode("plainPassword")).thenReturn("encoded-password");
         when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(jwtService.generateToken("newuser")).thenReturn("jwt-token");

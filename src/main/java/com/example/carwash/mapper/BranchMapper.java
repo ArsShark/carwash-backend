@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Converts between {@link Branch} entities and their request/response DTOs.
+ */
 @Component
 public class BranchMapper {
 
@@ -20,6 +23,10 @@ public class BranchMapper {
         return branch;
     }
 
+    /**
+     * Applies the request's fields onto an already-persisted entity, for
+     * updates. Leaves {@code id} and {@code deleted} untouched.
+     */
     public void updateEntity(Branch branch, BranchRequest request) {
         branch.setName(request.getName());
         branch.setAddress(request.getAddress());

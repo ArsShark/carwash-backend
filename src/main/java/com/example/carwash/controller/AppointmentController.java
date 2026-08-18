@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST endpoints for appointments. Reading and booking are open to any
+ * authenticated user ({@code USER} or {@code ADMIN}); updating an
+ * appointment is treated the same as booking one, while cancelling
+ * (soft-deleting) it is restricted to {@code ADMIN}.
+ */
 @RestController
 @RequestMapping("/api/appointments")
 @RequiredArgsConstructor

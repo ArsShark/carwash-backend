@@ -13,6 +13,14 @@ import org.springframework.validation.FieldError;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
+/**
+ * Translates exceptions thrown during Spring MVC dispatch into a
+ * consistent {@link ErrorResponse} JSON body with the right HTTP status.
+ * Exceptions that occur earlier, at the servlet filter-chain level (e.g. a
+ * missing or invalid JWT), never reach this class — those are handled by
+ * {@link com.example.carwash.security.RestAuthenticationEntryPoint} and
+ * {@link com.example.carwash.security.RestAccessDeniedHandler} instead.
+ */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {

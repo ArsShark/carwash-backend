@@ -3,6 +3,7 @@ package com.example.carwash.service;
 import com.example.carwash.dto.request.AppointmentRequest;
 import com.example.carwash.dto.response.AppointmentResponse;
 import com.example.carwash.entity.Appointment;
+import com.example.carwash.entity.AppointmentStatus;
 import com.example.carwash.entity.Client;
 import com.example.carwash.entity.ServiceEntity;
 import com.example.carwash.exception.ResourceNotFoundException;
@@ -69,7 +70,7 @@ class AppointmentServiceImplTest {
         appointment.setClient(client);
         appointment.setService(serviceEntity);
         appointment.setDateTime(futureDateTime);
-        appointment.setStatus("BOOKED");
+        appointment.setStatus(AppointmentStatus.BOOKED);
         appointment.setDeleted(false);
 
         request = new AppointmentRequest(1L, 1L, futureDateTime);
@@ -79,7 +80,7 @@ class AppointmentServiceImplTest {
         response.setClientName("Ivan Ivanov");
         response.setServiceName("Body wash");
         response.setDateTime(futureDateTime);
-        response.setStatus("BOOKED");
+        response.setStatus(AppointmentStatus.BOOKED);
     }
 
     @Test
@@ -163,6 +164,7 @@ class AppointmentServiceImplTest {
         appointmentService.softDelete(1L);
 
         assertThat(appointment.getDeleted()).isTrue();
+        assertThat(appointment.getStatus()).isEqualTo(AppointmentStatus.CANCELLED);
         verify(repository).save(appointment);
     }
 

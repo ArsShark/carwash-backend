@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * Payload for creating or updating a client.
+ */
 public class ClientRequest {
 
     @NotBlank(message = "Full name is required")

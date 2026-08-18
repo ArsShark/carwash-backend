@@ -12,6 +12,9 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * Payload for creating or updating a car wash service.
+ */
 public class ServiceRequest {
 
     @NotBlank(message = "Service name is required")

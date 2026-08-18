@@ -8,9 +8,16 @@ import org.hibernate.annotations.SQLRestriction;
 
 import java.util.Set;
 
+/**
+ * An account that can authenticate against the API, holding one or more {@link Role}s.
+ *
+ * <p>Soft-deleted rows ({@code deleted = true}) are excluded from every
+ * query automatically via {@link SQLRestriction}, so deletion never
+ * removes a row from the database.
+ */
 @Entity
 @Table(name = "users")
-@SQLRestriction("deleted = false") // Automatically filters out deleted users
+@SQLRestriction("deleted = false")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

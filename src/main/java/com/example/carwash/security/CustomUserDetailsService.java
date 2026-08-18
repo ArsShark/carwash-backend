@@ -7,6 +7,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Bridges Spring Security's authentication mechanism to the application's
+ * own {@link com.example.carwash.entity.User} table, so {@link
+ * JwtAuthenticationFilter} can look up a user by the username stored in a
+ * JWT's subject claim.
+ */
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
@@ -15,9 +21,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Look up the user in the database
         return userRepository.findByUsername(username)
-                .map(CustomUserDetails::new) // Wrap in our class
+                .map(CustomUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 }

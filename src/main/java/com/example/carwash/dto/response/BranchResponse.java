@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * A branch as returned to API callers.
+ */
 public class BranchResponse {
     private Long id;
     private String name;

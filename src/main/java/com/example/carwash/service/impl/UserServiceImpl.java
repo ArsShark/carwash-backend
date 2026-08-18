@@ -5,6 +5,7 @@ import com.example.carwash.dto.request.RegisterRequest;
 import com.example.carwash.dto.response.AuthResponse;
 import com.example.carwash.dto.response.UserResponse;
 import com.example.carwash.entity.Role;
+import com.example.carwash.entity.RoleName;
 import com.example.carwash.entity.User;
 import com.example.carwash.exception.UserAlreadyExistsException;
 import com.example.carwash.exception.UserNotFoundException;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException("User with username '" + request.getUsername() + "' already exists");
         }
 
-        Role userRole = roleRepository.findByName("ROLE_USER")
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Role ROLE_USER not found"));
 
         User user = new User();

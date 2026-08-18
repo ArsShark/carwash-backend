@@ -8,9 +8,16 @@ import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
 
+/**
+ * A booking linking a {@link Client} to a {@link ServiceEntity} at a given date and time.
+ *
+ * <p>Soft-deleted rows ({@code deleted = true}) are excluded from every
+ * query automatically via {@link SQLRestriction}, so deletion never
+ * removes a row from the database.
+ */
 @Entity
 @Table(name = "appointments")
-@SQLRestriction("deleted = false") // Automatically filters out deleted rows
+@SQLRestriction("deleted = false")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,8 +38,9 @@ public class Appointment {
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private String status = "BOOKED"; // BOOKED, COMPLETED, CANCELLED
+    private AppointmentStatus status = AppointmentStatus.BOOKED;
 
     @Column(nullable = false)
     private Boolean deleted = false;

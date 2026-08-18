@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Login credentials. Deliberately not shared with {@link RegisterRequest}:
+ * see the note on {@code password} below.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

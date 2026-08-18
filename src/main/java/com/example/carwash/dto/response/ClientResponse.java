@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * A client as returned to API callers.
+ */
 public class ClientResponse {
     private Long id;
     private String fullName;

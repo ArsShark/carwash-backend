@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * Payload for registering a new user account.
+ */
 public class RegisterRequest {
 
     @NotBlank(message = "Username is required")

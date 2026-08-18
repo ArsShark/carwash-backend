@@ -16,6 +16,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Wires up stateless JWT authentication for the whole API. GET requests to
+ * the four business resources are open to any authenticated user; write
+ * operations are gated per-endpoint via {@code @PreAuthorize} on the
+ * controllers rather than here, so this class only needs to require
+ * authentication for {@code /api/**} in general. {@link
+ * RestAuthenticationEntryPoint} and {@link RestAccessDeniedHandler} make
+ * sure failures at this filter-chain level get the same JSON error shape
+ * as failures handled inside Spring MVC by {@code GlobalExceptionHandler}.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity()

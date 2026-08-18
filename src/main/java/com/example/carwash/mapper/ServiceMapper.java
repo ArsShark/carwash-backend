@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Converts between {@link ServiceEntity} entities and their request/response DTOs.
+ */
 @Component
 public class ServiceMapper {
 
@@ -21,6 +24,10 @@ public class ServiceMapper {
         return entity;
     }
 
+    /**
+     * Applies the request's fields onto an already-persisted entity, for
+     * updates. Leaves {@code id} and {@code deleted} untouched.
+     */
     public void updateEntity(ServiceEntity entity, ServiceRequest request) {
         entity.setName(request.getName());
         entity.setDescription(request.getDescription());

@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * Payload for booking or updating an appointment.
+ */
 public class AppointmentRequest {
 
     @NotNull(message = "Client id is required")

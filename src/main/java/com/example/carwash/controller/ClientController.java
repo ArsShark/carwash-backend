@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST endpoints for car wash clients. Reading is open to any
+ * authenticated user ({@code USER} or {@code ADMIN}); creating, updating,
+ * and deleting are restricted to {@code ADMIN}.
+ */
 @RestController
 @RequestMapping("/api/clients")
 @RequiredArgsConstructor

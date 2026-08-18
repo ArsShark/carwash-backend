@@ -8,9 +8,16 @@ import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 
+/**
+ * A service the car wash offers (e.g. body wash, interior cleaning), with its price and typical duration.
+ *
+ * <p>Soft-deleted rows ({@code deleted = true}) are excluded from every
+ * query automatically via {@link SQLRestriction}, so deletion never
+ * removes a row from the database.
+ */
 @Entity
 @Table(name = "services")
-@SQLRestriction("deleted = false") // Automatically filters out deleted rows
+@SQLRestriction("deleted = false")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,7 +42,6 @@ public class ServiceEntity {
     @Column(nullable = false)
     private Boolean deleted = false;
 
-    // Associations
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private java.util.List<Appointment> appointments;
 }
